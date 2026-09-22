@@ -1,0 +1,10 @@
+{
+  "name": "iot-firmware-update-server",
+  "version": "1.0.0",
+  "description": "Node.js Firmware Update Server for Secure IoT OTA Updates",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js --generate"
+  }
+}
