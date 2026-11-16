@@ -31,7 +31,7 @@ This comprehensive guide covers everything from hardware setup, key generation, 
 ### 1.2 Python Server Dependencies (On Laptop)
 Open PowerShell in the project directory:
 ```powershell
-cd c:\Users\Manas\Desktop\xyz\btp\esp32\server
+cd c:\Users\Manas\Desktop\xyz\btp\server
 pip install cryptography cbor2 requests
 ```
 
@@ -42,7 +42,7 @@ pip install cryptography cbor2 requests
 ### 2.1 Generate Keys and C-Headers
 In PowerShell:
 ```powershell
-cd c:\Users\Manas\Desktop\xyz\btp\esp32\server
+cd c:\Users\Manas\Desktop\xyz\btp\server
 python gen_keys.py
 ```
 **What this does:**
@@ -50,7 +50,7 @@ python gen_keys.py
 * Generates Server TLS certificate (`server.crt`, `server.key`) with SAN for your local IP
 * Generates Device mTLS credentials (`client.crt`, `client.key`)
 * Generates Firmware Signing RSA keypair (`firmware_sign_priv.pem`, `firmware_sign_pub.pem`)
-* Automatically formats and writes `ca_cert.h`, `client_cert.h`, and `firmware_pubkey.h` directly into `esp32/arduino/ota_client/`!
+* Automatically formats and writes `ca_cert.h`, `client_cert.h`, and `firmware_pubkey.h` directly into `arduino/ota_client/`!
 
 ### 2.2 Start the Local HTTPS Server
 ```powershell
@@ -64,7 +64,7 @@ python ota_server.py
 ## Guide 3: Arduino Client Execution (Track A Live Demo)
 
 ### 3.1 Configure secrets.h
-Open `esp32/arduino/ota_client/secrets.h` in Arduino IDE or VS Code:
+Open `arduino/ota_client/secrets.h` in Arduino IDE or VS Code:
 ```cpp
 #define WIFI_SSID         "Your_WiFi_Name"
 #define WIFI_PASSWORD     "Your_WiFi_Password"
@@ -78,7 +78,7 @@ Open `esp32/arduino/ota_client/secrets.h` in Arduino IDE or VS Code:
 ```
 
 ### 3.2 Upload V1 Baseline Firmware
-1. In Arduino IDE, open `esp32/arduino/ota_client/ota_client.ino`.
+1. In Arduino IDE, open `arduino/ota_client/ota_client.ino`.
 2. Click **Upload** (`Ctrl+U`).
 3. Once flashed, open **Serial Monitor** at **115200 baud**.
 4. Expected log lines:
@@ -103,11 +103,11 @@ Open `esp32/arduino/ota_client/secrets.h` in Arduino IDE or VS Code:
 2. In Arduino IDE menu, click **Sketch** -> **Export Compiled Binary** (`Ctrl+Alt+S`).
 3. Locate the compiled `.bin` file in the sketch folder `build/esp32.esp32.esp32c6/` and copy it:
    ```powershell
-   Copy-Item esp32\arduino\ota_client\build\esp32.esp32.esp32c6\ota_client.ino.bin esp32\server\firmware\firmware_v2.bin
+   Copy-Item arduino\ota_client\build\esp32.esp32.esp32c6\ota_client.ino.bin server\firmware\firmware_v2.bin
    ```
 4. Build the authentic SUIT manifest:
    ```powershell
-   cd esp32\server
+   cd server
    python build_manifest.py --bin firmware\firmware_v2.bin --key keys\firmware_sign_priv.pem --seq 2 --ver 2.0.0
    ```
 
@@ -145,7 +145,7 @@ Open `esp32/arduino/ota_client/secrets.h` in Arduino IDE or VS Code:
 ### 4.2 Build and Flash Track B Project
 In the ESP-IDF terminal:
 ```powershell
-cd c:\Users\Manas\Desktop\xyz\btp\esp32\idf_hardware
+cd c:\Users\Manas\Desktop\xyz\btp\idf_hardware
 idf.py set-target esp32c6
 idf.py build
 idf.py -p COM5 flash monitor
@@ -167,7 +167,7 @@ espsecure.py verify_signature --version 2 -k secure_boot_signing_key.pem build/b
 
 Run the automated test runner from PowerShell:
 ```powershell
-cd c:\Users\Manas\Desktop\xyz\btp\esp32\tests
+cd c:\Users\Manas\Desktop\xyz\btp\tests
 python run_attack_matrix.py
 ```
 
@@ -199,7 +199,7 @@ Follow `docs/benchmarks.md`:
 cd c:\Users\Manas\Desktop\xyz\btp
 git status
 # Verify that keys/*.pem, client.key, and secrets.h are NOT listed as untracked files!
-git add esp32/
+git add .
 git commit -m "feat: complete ESP32-C6 secure OTA framework with Track A Arduino, SUIT manifest, and attack matrix"
 git tag -a final-review -m "Final B.Tech evaluation release"
 git push origin main --tags

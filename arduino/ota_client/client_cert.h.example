@@ -19,3 +19,4 @@ const char CLIENT_KEY[] PROGMEM =
   "...[DEVICE_CLIENT_PRIVATE_KEY]...\n"
   "-----END RSA PRIVATE KEY-----\n"
 ;
+

@@ -11,12 +11,12 @@ This document maps the project directly to your evaluation slide deck, provides 
 | **1** | Title & Team | `README.md` | Introduce project title, role, and problem scope. |
 | **2** | Problem Statement & Objective | `docs/threat_model.md` | Point out firmware tampering, bricking risk, and rollback exploits in IoT. |
 | **3** | Evolution: ESP8266 to ESP32-C6 | `docs/benchmarks.md` | Show architecture comparison table (Software-only vs Hardware-backed). |
-| **4** | End-to-End Architecture | `esp32/arduino/ota_client/` | Architectural block diagram: Server -> TLS -> SUIT Parser -> Dual A/B. |
-| **5** | SUIT Manifest & Cryptography | `esp32/server/build_manifest.py` | Highlight RFC 9124 CBOR + COSE-Sign1 structure and RSA-2048 signing. |
-| **6** | Hardware Security Engines | `esp32/idf_hardware/` | Secure Boot v2, Flash Encryption (AES-XTS), and eFuse anti-rollback. |
-| **7** | Two-Phase Commit & Rollback | `esp32/arduino/ota_client/health_check.cpp` | Explain `PENDING_VERIFY` state machine and automated recovery. |
+| **4** | End-to-End Architecture | `arduino/ota_client/` | Architectural block diagram: Server -> TLS -> SUIT Parser -> Dual A/B. |
+| **5** | SUIT Manifest & Cryptography | `server/build_manifest.py` | Highlight RFC 9124 CBOR + COSE-Sign1 structure and RSA-2048 signing. |
+| **6** | Hardware Security Engines | `idf_hardware/` | Secure Boot v2, Flash Encryption (AES-XTS), and eFuse anti-rollback. |
+| **7** | Two-Phase Commit & Rollback | `arduino/ota_client/health_check.cpp` | Explain `PENDING_VERIFY` state machine and automated recovery. |
 | **8** | Novelty: eFuse vs Software Anti-Rollback | `docs/attack_matrix.md` | **Demo:** Explain why physical flash wipe resets software counter but cannot reset eFuses. |
-| **9** | Novelty: Spoofable Header vs mTLS | `esp32/tests/run_attack_matrix.py` | **Demo:** Show attacker exfiltrating firmware with forged header; blocked when mTLS on. |
+| **9** | Novelty: Spoofable Header vs mTLS | `tests/run_attack_matrix.py` | **Demo:** Show attacker exfiltrating firmware with forged header; blocked when mTLS on. |
 | **10**| Attack Matrix (9 Tests) | `docs/attack_matrix.md` | Display 9/9 PASS / CORRECTLY REJECTED evaluation scorecard. |
 | **11**| Performance Benchmarks | `docs/benchmarks.md` | Present TLS handshake timing, RSA speedup (~6.5x), and flash overhead. |
 | **12**| Conclusion & Future Work | `README.md` | Summarize contributions, ESP-TEE roadmap, and delta updates. |
@@ -71,7 +71,7 @@ This document maps the project directly to your evaluation slide deck, provides 
 ---
 
 ## 4. Fallback Plan (If Live Hardware / Network Glitches)
-* Keep `esp32/results/` populated with:
+* Keep `results/` populated with:
   1. Complete serial monitor logs of successful V1 -> V2 OTA.
   2. Screenshots of the 9-test attack matrix terminal output (`run_attack_matrix.py`).
   3. Pre-recorded 60-second video clip of the board booting and rolling back.

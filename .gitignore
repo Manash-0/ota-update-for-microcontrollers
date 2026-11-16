@@ -1,33 +1,61 @@
-# Ignore all markdown files as requested
-*.md
+# Documentation (track markdown guides)
+!README.md
+!docs/*.md
+!esp8266/README.md
+!implementation BTP.md
+!esp32_firmware/*.md
 
-# Ignore archive folder as requested
-archive/
-*/archive/
-
-# Ignore private keys & cryptographic secrets
-esp32_firmware/keys/
+# Keys, Certificates, and Secrets (CRITICAL: NEVER COMMIT PRIVATE KEYS OR PASSWORDS)
+keys/
+*/keys/
+server/keys/
 *.pem
 *.key
-flash_encryption_key.bin
+*.crt
+*.der
+*.pfx
 secrets.h
 secrets.h.local
 client_cert.h
 client_cert.h.local
+flash_encryption_key.bin
 
-# Ignore compiled binaries and build artifacts
+# Python artifacts
+__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Build outputs
 build/
 */build/
 *.bin
 *.elf
 *.map
 *.exe
+.pio/
+.espidf/
 esp32_firmware/attack_matrix/work/
+!firmware_samples/demo_*.bin
 
 # Node.js
 node_modules/
 npm-debug.log
 
+# Archive & temporary
+archive/
+esp8266/archive/
+
 # Office presentation binaries (source kept in LaTeX)
 *.pptx
 *.ppt
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+.DS_Store
