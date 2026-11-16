@@ -1,0 +1,192 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-11-12T16:34:36.030698+00:00",
+    "action": "GENESIS_LOG_INITIALIZATION",
+    "device_id": "SYSTEM",
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "entry_hash": "8c8f854910f32f2ebd5f22bc62fe924f80d3eba87137cbc02efeaf7c2569ff9f"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-11-12T16:35:35.488054+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "corrupt_hash"
+    },
+    "prev_hash": "8c8f854910f32f2ebd5f22bc62fe924f80d3eba87137cbc02efeaf7c2569ff9f",
+    "entry_hash": "bc8c2602b7f4ba1249e25937ec14414d0beb335137467a004062c46af411cc2e"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-11-12T16:35:36.485753+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "bad_magic"
+    },
+    "prev_hash": "bc8c2602b7f4ba1249e25937ec14414d0beb335137467a004062c46af411cc2e",
+    "entry_hash": "712b09773b5177c5a0b596154a15bbd7b0703fabbc314bb43e54899f618b715b"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-11-12T16:35:37.470635+00:00",
+    "action": "ACCESS_DENIED_UNAUTHORIZED",
+    "device_id": "MALICIOUS_ATTACKER_ID_999",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "path": "/ota/manifest.json"
+    },
+    "prev_hash": "712b09773b5177c5a0b596154a15bbd7b0703fabbc314bb43e54899f618b715b",
+    "entry_hash": "2b101108a463dd9700a67071ea41f844b0e3ff256cf6e9f433f88e07a4400458"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-11-12T16:35:37.888392+00:00",
+    "action": "FIRMWARE_DOWNLOADED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "size_bytes": 384,
+      "sha256": "6fe9b926f6ba818e6e4d2a4492e559c87ae4a5b90c939779d2d563185c826c14"
+    },
+    "prev_hash": "2b101108a463dd9700a67071ea41f844b0e3ff256cf6e9f433f88e07a4400458",
+    "entry_hash": "c55fac21013a6b98c9256e400aff04d4339f124ff95f0b2bec4f24b197d36c9d"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-11-12T16:36:55.810570+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "corrupt_hash"
+    },
+    "prev_hash": "c55fac21013a6b98c9256e400aff04d4339f124ff95f0b2bec4f24b197d36c9d",
+    "entry_hash": "a8bff2680f2bae21c90f60d81062db11219b585f0f80134e89c1b4f6e8f5806c"
+  },
+  {
+    "index": 6,
+    "timestamp": "2026-11-12T16:36:56.759306+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "bad_magic"
+    },
+    "prev_hash": "a8bff2680f2bae21c90f60d81062db11219b585f0f80134e89c1b4f6e8f5806c",
+    "entry_hash": "234e75b0b2a9643f0da1c00638fd1b709f5b9dc4b7fb12dab1076a8c40e32c21"
+  },
+  {
+    "index": 7,
+    "timestamp": "2026-11-12T16:36:57.618068+00:00",
+    "action": "ACCESS_DENIED_UNAUTHORIZED",
+    "device_id": "MALICIOUS_ATTACKER_ID_999",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "path": "/ota/manifest.json"
+    },
+    "prev_hash": "234e75b0b2a9643f0da1c00638fd1b709f5b9dc4b7fb12dab1076a8c40e32c21",
+    "entry_hash": "e84cc4241c3eb10afa6c74a42d841a07d80dd6703a8aed6a5339a4f5f7329aa3"
+  },
+  {
+    "index": 8,
+    "timestamp": "2026-11-12T16:36:58.014020+00:00",
+    "action": "FIRMWARE_DOWNLOADED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "size_bytes": 384,
+      "sha256": "6fe9b926f6ba818e6e4d2a4492e559c87ae4a5b90c939779d2d563185c826c14"
+    },
+    "prev_hash": "e84cc4241c3eb10afa6c74a42d841a07d80dd6703a8aed6a5339a4f5f7329aa3",
+    "entry_hash": "448da8291d7a9cafec0925f20d5e8f9b6ff26d6f76938ed5379f086a04a9e2ca"
+  },
+  {
+    "index": 9,
+    "timestamp": "2026-11-12T16:37:17.174355+00:00",
+    "action": "TEST",
+    "device_id": "DEV",
+    "auth_mode": "MODE",
+    "client_ip": "127.0.0.1",
+    "details": {},
+    "prev_hash": "448da8291d7a9cafec0925f20d5e8f9b6ff26d6f76938ed5379f086a04a9e2ca",
+    "entry_hash": "c1b9908194d5d236a05ff4b14ae5877f279588d573342b7c0da89248fdebbc50"
+  },
+  {
+    "index": 10,
+    "timestamp": "2026-11-12T16:39:04.544358+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "corrupt_hash"
+    },
+    "prev_hash": "c1b9908194d5d236a05ff4b14ae5877f279588d573342b7c0da89248fdebbc50",
+    "entry_hash": "56038ee2f4c887828bef52330cb7e1a71af042546b6328dff13df4c295fd59c2"
+  },
+  {
+    "index": 11,
+    "timestamp": "2026-11-12T16:39:05.480662+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "bad_magic"
+    },
+    "prev_hash": "56038ee2f4c887828bef52330cb7e1a71af042546b6328dff13df4c295fd59c2",
+    "entry_hash": "6cb49dd5eaab0829bc9b3f9ff41c7f13de06ee86e3421129364cf9557af6b125"
+  },
+  {
+    "index": 12,
+    "timestamp": "2026-11-12T16:39:06.269418+00:00",
+    "action": "ACCESS_DENIED_UNAUTHORIZED",
+    "device_id": "MALICIOUS_ATTACKER_ID_999",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "path": "/ota/manifest.json"
+    },
+    "prev_hash": "6cb49dd5eaab0829bc9b3f9ff41c7f13de06ee86e3421129364cf9557af6b125",
+    "entry_hash": "2d43f23ac870863dac246bbc57171c78d1b61e2a73fab88bfa98b5bf4d7af2bc"
+  },
+  {
+    "index": 13,
+    "timestamp": "2026-11-12T16:39:06.627241+00:00",
+    "action": "FIRMWARE_DOWNLOADED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "size_bytes": 384,
+      "sha256": "6fe9b926f6ba818e6e4d2a4492e559c87ae4a5b90c939779d2d563185c826c14"
+    },
+    "prev_hash": "2d43f23ac870863dac246bbc57171c78d1b61e2a73fab88bfa98b5bf4d7af2bc",
+    "entry_hash": "41066a845b8b105660f593692d8687f007d21c0db6018327a2164d35a56e80e1"
+  }
+]

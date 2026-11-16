@@ -1,0 +1,18 @@
+{
+  "standard": "RFC 9124 SUIT / RFC 8152 COSE-Sign1",
+  "magic": "0xDEADBEEF",
+  "sequence_number": 2,
+  "image_size_bytes": 384,
+  "sha256_hex": "6fe9b926f6ba818e6e4d2a4492e559c87ae4a5b90c939779d2d563185c826c14",
+  "vendor_id": "BTP-Secure-IoT",
+  "device_class": "ESP32-C6",
+  "version": "2.0.0",
+  "signature_hex": "8b9f4bd832a0b79433e8a8f65c0c2b48e92d26d617d33f30255ae79c1bc81acf28e5a126f5c80a7f4816595e4e35277985077351b569bf625105b4c57c87254d9193956ce743f4a2ff15814138092468b6ff1f6e459f6065dd392a0a0f3e19471d0d4a08dc358e47f6ae81c1f50eb132148179374f6d5dc5c71d825fc224ce431c84989ea2d70a32816abb7818668b153313e90ac63ea25de89f566979f3be0872992839f43bb4f53f0fb2977e1eea5c2fbc722ae1aa0e3ad468c781e897feef24299d2580302faf934d60e0ef857d1a2df8892e8c92c3506a03cacb52a3ede669def51ddea90e0a3a74c6cab8a339308b292cf02dc822aa3e6b0384d855816f",
+  "cbor_envelope_size": 362,
+  "flags": {
+    "corrupt_hash": false,
+    "bad_magic": true,
+    "tampered_signature": false,
+    "old_sequence": false
+  }
+}

@@ -1,0 +1,55 @@
+# ESP-IDF Hardware Security Configuration (Development / Evaluation Mode)
+# Target: ESP32-C6 (4MB Flash)
+
+# Target Selection
+CONFIG_IDF_TARGET="esp32c6"
+
+# Custom A/B Partition Table
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x9000
+
+# -------------------------------------------------------------
+# 1. SECURE BOOT V2 (Hardware Root of Trust)
+# -------------------------------------------------------------
+CONFIG_SECURE_BOOT=y
+CONFIG_SECURE_BOOT_V2_ENABLED=y
+CONFIG_SECURE_BOOT_BUILD_SIGNED_BINARIES=y
+CONFIG_SECURE_BOOT_SIGNING_KEY="secure_boot_signing_key.pem"
+
+# [IMPORTANT SAFETY]: Development mode allows re-flashing and keeps JTAG/UART active
+CONFIG_SECURE_BOOT_INSECURE=y
+CONFIG_SECURE_BOOT_ALLOW_ROM_DL_MODE=y
+CONFIG_SECURE_BOOT_ALLOW_JTAG=y
+CONFIG_SECURE_BOOT_ALLOW_UNUSED_DIGEST_SLOTS=y
+
+# -------------------------------------------------------------
+# 2. HARDWARE FLASH ENCRYPTION (AES-XTS)
+# -------------------------------------------------------------
+CONFIG_SECURE_FLASH_ENC_ENABLED=y
+# [IMPORTANT SAFETY]: Development mode keeps plaintext flashing via UART active
+CONFIG_SECURE_FLASH_ENCRYPTION_MODE_DEVELOPMENT=y
+CONFIG_SECURE_FLASH_CHECK_ENC_ENCRYPTED_BOOTLOADER=y
+CONFIG_SECURE_FLASH_UART_BOOTLOADER_ALLOW_ENC=y
+CONFIG_SECURE_FLASH_UART_BOOTLOADER_ALLOW_DEC=y
+CONFIG_SECURE_FLASH_UART_BOOTLOADER_ALLOW_CACHE=y
+
+# -------------------------------------------------------------
+# 3. HARDWARE ANTI-ROLLBACK (eFuse Security Version Enforcement)
+# -------------------------------------------------------------
+CONFIG_BOOTLOADER_APP_ANTI_ROLLBACK=y
+CONFIG_BOOTLOADER_APP_SEC_VER=1
+CONFIG_APP_ANTI_ROLLBACK=y
+
+# -------------------------------------------------------------
+# 4. APP ROLLBACK & TWO-PHASE COMMIT HEALTH CHECK
+# -------------------------------------------------------------
+CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
+CONFIG_OTA_ALLOW_HTTP=n
+
+# -------------------------------------------------------------
+# 5. CONSOLE & LOGGING (USB-Serial/JTAG for ESP32-C6 Pico)
+# -------------------------------------------------------------
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+

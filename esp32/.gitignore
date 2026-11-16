@@ -1,0 +1,40 @@
+# Allow documentation markdown files
+!*.md
+!docs/*.md
+
+# Keys, Certificates, and Secrets (CRITICAL: NEVER COMMIT PRIVATE KEYS OR PASSWORDS)
+*.pem
+*.key
+*.crt
+*.der
+*.pfx
+secrets.h
+secrets.h.local
+client_cert.h
+client_cert.h.local
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Build outputs
+build/
+*.bin
+*.elf
+*.map
+.pio/
+.espidf/
+
+# Allow sample demo binaries for offline testing
+!firmware_samples/demo_*.bin
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+.DS_Store

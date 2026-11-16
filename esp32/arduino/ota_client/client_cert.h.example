@@ -1,0 +1,21 @@
+// client_cert.h.example - Template for Device Client Certificate & Private Key
+// Run 'python esp32/server/gen_keys.py' to generate your local 'client_cert.h'.
+// DO NOT COMMIT YOUR REAL PRIVATE KEY TO GIT.
+
+#pragma once
+#include <Arduino.h>
+
+const char CLIENT_CERT[] PROGMEM = 
+  "-----BEGIN CERTIFICATE-----\n"
+  "MIIDdDCCAlygAwIBAgIUYZPuaREND23vih0jctFc3ikxjncwDQYJKoZIhvcNAQEL\n"
+  "BQAwPDELMAkGA1UEBhMCSU4xFzAVBgNVBAoMDkJUUCBTZWN1cmUgSW9UMRQwEgYD\n"
+  "...[DEVICE_CLIENT_CERTIFICATE]...\n"
+  "-----END CERTIFICATE-----\n"
+;
+
+const char CLIENT_KEY[] PROGMEM = 
+  "-----BEGIN RSA PRIVATE KEY-----\n"
+  "MIIEpAIBAAKCAQEAyvKiJnhG48BQX42EAptpOSOpVQskl6/co9u2QR6PFGsFJ1QW\n"
+  "...[DEVICE_CLIENT_PRIVATE_KEY]...\n"
+  "-----END RSA PRIVATE KEY-----\n"
+;
