@@ -47,6 +47,7 @@ npm-debug.log
 # Archive & temporary
 archive/
 esp8266/archive/
+*.zip
 
 # Office presentation binaries (source kept in LaTeX)
 *.pptx

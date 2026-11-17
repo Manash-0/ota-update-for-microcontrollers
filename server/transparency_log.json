@@ -188,5 +188,62 @@
     },
     "prev_hash": "2d43f23ac870863dac246bbc57171c78d1b61e2a73fab88bfa98b5bf4d7af2bc",
     "entry_hash": "41066a845b8b105660f593692d8687f007d21c0db6018327a2164d35a56e80e1"
+  },
+  {
+    "index": 14,
+    "timestamp": "2026-11-17T19:15:10.080222+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "corrupt_hash"
+    },
+    "prev_hash": "41066a845b8b105660f593692d8687f007d21c0db6018327a2164d35a56e80e1",
+    "entry_hash": "9501c6f8343e7e59b0b7b93714c6ccceddc8cd227313ad883c36486452ea598d"
+  },
+  {
+    "index": 15,
+    "timestamp": "2026-11-17T19:15:11.220499+00:00",
+    "action": "MANIFEST_SERVED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "format": "CBOR",
+      "bytes": 362,
+      "attack_flag": "old_seq"
+    },
+    "prev_hash": "9501c6f8343e7e59b0b7b93714c6ccceddc8cd227313ad883c36486452ea598d",
+    "entry_hash": "38552dbafeb159fd66d3197bbb9fcefa5b8c9401db120b9b379ef6359351c778"
+  },
+  {
+    "index": 16,
+    "timestamp": "2026-11-17T19:15:13.401089+00:00",
+    "action": "ACCESS_DENIED_UNAUTHORIZED",
+    "device_id": "MALICIOUS_ROGUE_NODE_999",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "path": "/ota/manifest.json"
+    },
+    "prev_hash": "38552dbafeb159fd66d3197bbb9fcefa5b8c9401db120b9b379ef6359351c778",
+    "entry_hash": "a67805065e9be842124e49e500d91246f1542e5e08decc6f0c93a8a7dfd3b400"
+  },
+  {
+    "index": 17,
+    "timestamp": "2026-11-17T19:15:13.488800+00:00",
+    "action": "FIRMWARE_DOWNLOADED",
+    "device_id": "ESP32C6-SMARTELEX-01",
+    "auth_mode": "X-Device-ID_HEADER",
+    "client_ip": "127.0.0.1",
+    "details": {
+      "size_bytes": 385,
+      "sha256": "ddcaa38f8d1c2ced5591ae61c595ff4659df6e316e97f6cf92873717210d1d45"
+    },
+    "prev_hash": "a67805065e9be842124e49e500d91246f1542e5e08decc6f0c93a8a7dfd3b400",
+    "entry_hash": "8f414e879af6ca311c6c45d19a4605c6659ecc08323f0ccc835b9b0eb3461718"
   }
 ]
