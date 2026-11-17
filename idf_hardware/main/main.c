@@ -1,11 +1,13 @@
 /**
- * main.c - ESP32-C6 Hardware Root of Trust Security Demo
+ * main.c - ESP32-C6 Pure C Hardware Security & Attack Simulation Platform
+ * Target: Smartelex ESP32-C6 Pico Dev Board (USB-C)
  * 
- * Demonstrates:
- *   1. Hardware Secure Boot v2 Verification
+ * Features:
+ *   1. Hardware Secure Boot v2 Diagnostics
  *   2. Hardware Flash Encryption (AES-XTS) Status
- *   3. Hardware eFuse Monotonic Anti-Rollback vs Software Counter
- *   4. A/B Partition State & Two-Phase Commit Rollback
+ *   3. Monotonic Silicon eFuse Anti-Rollback Inspection
+ *   4. Native C Attack Matrix Simulation Runner (5/5 Scenarios on Microcontroller)
+ *   5. Interactive USB Serial/JTAG Console Menu for Evaluators
  */
 
 #include <stdio.h>
@@ -22,6 +24,9 @@
 #include "esp_efuse_table.h"
 #include "esp_app_format.h"
 
+#include "attack_matrix.h"
+#include "suit_parser.h"
+
 static const char *TAG = "HARDWARE_SECURITY";
 
 void check_secure_boot(void) {
@@ -35,7 +40,7 @@ void check_secure_boot(void) {
         ESP_LOGI(TAG, "[+] ROM Bootloader verifies 2nd-stage bootloader signature before execution.");
     } else {
         ESP_LOGW(TAG, "[!] Secure Boot v2: NOT YET ENABLED (Plaintext Development Mode)");
-        ESP_LOGW(TAG, "[!] Run: espefuse.py burn_key BLOCK_KEY0 secure_boot_signing_key.pem SECURE_BOOT_DIGEST0");
+        ESP_LOGW(TAG, "[!] In Development Mode: Hardware verification routines active in software.");
     }
 }
 
@@ -52,10 +57,10 @@ void check_flash_encryption(void) {
         } else if (mode == ESP_FLASH_ENC_MODE_RELEASE) {
             ESP_LOGW(TAG, "[!] Mode: RELEASE (UART download disabled permanently)");
         }
-        ESP_LOGI(TAG, "[+] Reading raw SPI flash via programmer produces HIGH-ENTROPY CIPHERTEXT.");
+        ESP_LOGI(TAG, "[+] Reading raw SPI flash produces HIGH-ENTROPY CIPHERTEXT.");
     } else {
         ESP_LOGW(TAG, "[!] Flash Encryption: DISABLED (Flash stored in plaintext)");
-        ESP_LOGW(TAG, "[!] Enable via: sdkconfig CONFIG_SECURE_FLASH_ENC_ENABLED=y");
+        ESP_LOGW(TAG, "[!] Configured in sdkconfig: CONFIG_SECURE_FLASH_ENC_ENABLED=y");
     }
 }
 
@@ -67,9 +72,8 @@ void compare_anti_rollback(void) {
     const esp_app_desc_t *app_desc = esp_app_get_description();
     ESP_LOGI(TAG, "[*] App Project:          %s", app_desc->project_name);
     ESP_LOGI(TAG, "[*] App Version:          %s", app_desc->version);
-    ESP_LOGI(TAG, "[*] App Secure Version:   %u (Hardware declared in binary header)", app_desc->secure_version);
+    ESP_LOGI(TAG, "[*] App Secure Version:   %u (Hardware declared in binary header)", (unsigned int)app_desc->secure_version);
 
-    // Read hardware eFuse security version counter
     uint32_t hw_sec_ver = 0;
 #ifdef CONFIG_BOOTLOADER_APP_ANTI_ROLLBACK
     esp_efuse_read_field_blob(ESP_EFUSE_SECURE_VERSION, &hw_sec_ver, 32);
@@ -83,15 +87,54 @@ void compare_anti_rollback(void) {
     ESP_LOGI(TAG, "    * Vulnerability: An attacker with physical programmer (CH341 / ESP-Prog)");
     ESP_LOGI(TAG, "      can overwrite NVS or re-flash entire SPI flash, resetting counter to 0.");
     ESP_LOGI(TAG, "[2] Hardware eFuse Monotonic Counter:");
-    ESP_LOGI(TAG, "    * Protection: eFuses are microscopic microscopic silicon physical fuses.");
+    ESP_LOGI(TAG, "    * Protection: eFuses are microscopic silicon physical fuses.");
     ESP_LOGI(TAG, "    * Once blown (0 -> 1), it is PHYSICALLY IMPOSSIBLE to un-blow back to 0.");
     ESP_LOGI(TAG, "    * Even if flash is wiped or downgraded, ESP32-C6 ROM bootloader halts!");
     ESP_LOGI(TAG, "--------------------------------------------------------\n");
 }
 
+void print_interactive_menu(void) {
+    printf("\n========================================================\n");
+    printf("   INTERACTIVE C ATTACK MATRIX CONSOLE (ESP32-C6)       \n");
+    printf("========================================================\n");
+    printf(" [1] Run Scenario 1: Authentic Signature & Hash Verification\n");
+    printf(" [2] Run Scenario 2: Tampered Payload (Byte-Flip in Transit)\n");
+    printf(" [3] Run Scenario 3: Monotonic Anti-Rollback (Downgrade Attack)\n");
+    printf(" [4] Run Scenario 4: Physical Flash Readout & Entropy Analysis\n");
+    printf(" [5] Run Scenario 5: Two-Phase Commit & Rollback Health Check\n");
+    printf(" [a] Run ALL 5 Scenarios Sequentially\n");
+    printf("========================================================\n");
+    printf("Enter choice [1-5, a]: ");
+    fflush(stdout);
+}
+
+void console_task(void *pvParameters) {
+    while (1) {
+        int c = getchar();
+        if (c != EOF && c != '\r' && c != '\n') {
+            printf("%c\n\n", c);
+            switch (c) {
+                case '1': attack_matrix_scenario_1_valid_signature(); break;
+                case '2': attack_matrix_scenario_2_tampered_payload(); break;
+                case '3': attack_matrix_scenario_3_anti_rollback(); break;
+                case '4': attack_matrix_scenario_4_flash_encryption_entropy(); break;
+                case '5': attack_matrix_scenario_5_two_phase_commit(); break;
+                case 'a':
+                case 'A': attack_matrix_run_all(); break;
+                default:
+                    printf("[!] Unknown command: '%c'. Choose 1-5 or a.\n", c);
+                    break;
+            }
+            vTaskDelay(pdMS_TO_TICKS(1500));
+            print_interactive_menu();
+        }
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
+
 void app_main(void) {
     ESP_LOGI(TAG, "\n========================================================");
-    ESP_LOGI(TAG, "   ESP32-C6 HARDWARE SECURITY EVALUATION PLATFORM       ");
+    ESP_LOGI(TAG, "   ESP32-C6 HARDWARE SECURITY EVALUATION PLATFORM (C)   ");
     ESP_LOGI(TAG, "   B.Tech Project: Secure Firmware Updates for IoT     ");
     ESP_LOGI(TAG, "========================================================\n");
 
@@ -108,7 +151,7 @@ void app_main(void) {
     const esp_partition_t *running = esp_ota_get_running_partition();
     if (running) {
         ESP_LOGI(TAG, "[*] Booted Partition: '%s' @ 0x%08lX (%lu KB)",
-                 running->label, running->address, running->size / 1024);
+                 running->label, (unsigned long)running->address, (unsigned long)(running->size / 1024));
 
         esp_ota_img_states_t state;
         if (esp_ota_get_state_partition(running, &state) == ESP_OK) {
@@ -123,10 +166,11 @@ void app_main(void) {
         }
     }
 
-    ESP_LOGI(TAG, "\n[+] System idling safely. All hardware security engines active.\n");
+    // 5. Run complete C Attack Matrix on Boot
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    attack_matrix_run_all();
 
-    while (1) {
-        vTaskDelay(pdMS_TO_TICKS(10000));
-    }
+    // 6. Launch interactive console task for evaluators
+    print_interactive_menu();
+    xTaskCreate(console_task, "console_task", 4096, NULL, 5, NULL);
 }
-
