@@ -1,12 +1,12 @@
 /**
- * main.c - ESP32-C6 Pure C Hardware Security & Attack Simulation Platform
+ * main.c - ESP32-C6 Pure C Hardware Security & Extended Attack Simulation Platform
  * Target: Smartelex ESP32-C6 Pico Dev Board (USB-C)
  * 
  * Features:
  *   1. Hardware Secure Boot v2 Diagnostics
  *   2. Hardware Flash Encryption (AES-XTS) Status
  *   3. Monotonic Silicon eFuse Anti-Rollback Inspection
- *   4. Native C Attack Matrix Simulation Runner (5/5 Scenarios on Microcontroller)
+ *   4. Native C Attack Matrix Simulation Runner (10 Comprehensive Scenarios)
  *   5. Interactive USB Serial/JTAG Console Menu for Evaluators
  */
 
@@ -94,17 +94,22 @@ void compare_anti_rollback(void) {
 }
 
 void print_interactive_menu(void) {
-    printf("\n========================================================\n");
-    printf("   INTERACTIVE C ATTACK MATRIX CONSOLE (ESP32-C6)       \n");
-    printf("========================================================\n");
-    printf(" [1] Run Scenario 1: Authentic Signature & Hash Verification\n");
-    printf(" [2] Run Scenario 2: Tampered Payload (Byte-Flip in Transit)\n");
-    printf(" [3] Run Scenario 3: Monotonic Anti-Rollback (Downgrade Attack)\n");
-    printf(" [4] Run Scenario 4: Physical Flash Readout & Entropy Analysis\n");
-    printf(" [5] Run Scenario 5: Two-Phase Commit & Rollback Health Check\n");
-    printf(" [a] Run ALL 5 Scenarios Sequentially\n");
-    printf("========================================================\n");
-    printf("Enter choice [1-5, a]: ");
+    printf("\n========================================================================\n");
+    printf("   INTERACTIVE C ATTACK MATRIX CONSOLE (ESP32-C6 RISC-V)               \n");
+    printf("========================================================================\n");
+    printf(" [1] Scenario 1:  Authentic Signature & Hash Verification\n");
+    printf(" [2] Scenario 2:  Tampered Payload Attack (Byte-Flip in Code Segment)\n");
+    printf(" [3] Scenario 3:  Monotonic Anti-Rollback Attack (Version Downgrade)\n");
+    printf(" [4] Scenario 4:  Physical Flash Extraction & Shannon Entropy Analysis\n");
+    printf(" [5] Scenario 5:  Two-Phase Commit & Rollback State Machine\n");
+    printf(" [6] Scenario 6:  Health Check Attack: Heap Starvation / Memory Depletion\n");
+    printf(" [7] Scenario 7:  Health Check Attack: Task Freeze & Watchdog Recovery\n");
+    printf(" [8] Scenario 8:  RSA-PSS Attack: Corrupted PSS Padding & Salt (RFC 8017)\n");
+    printf(" [9] Scenario 9:  HTTPS/TLS Attack: Rogue / Untrusted CA MitM Spoofing\n");
+    printf(" [0] Scenario 10: Header Attack: Bad Magic Bytes (0xDEADBEEF)\n");
+    printf(" [a] Run ALL 10 Scenarios Sequentially\n");
+    printf("========================================================================\n");
+    printf("Enter choice [0-9, a]: ");
     fflush(stdout);
 }
 
@@ -119,10 +124,15 @@ void console_task(void *pvParameters) {
                 case '3': attack_matrix_scenario_3_anti_rollback(); break;
                 case '4': attack_matrix_scenario_4_flash_encryption_entropy(); break;
                 case '5': attack_matrix_scenario_5_two_phase_commit(); break;
+                case '6': attack_matrix_scenario_6_health_check_heap_starvation(); break;
+                case '7': attack_matrix_scenario_7_health_check_watchdog_timeout(); break;
+                case '8': attack_matrix_scenario_8_rsa_pss_tampered_salt(); break;
+                case '9': attack_matrix_scenario_9_https_untrusted_ca_mitm(); break;
+                case '0': attack_matrix_scenario_10_bad_magic_bytes(); break;
                 case 'a':
                 case 'A': attack_matrix_run_all(); break;
                 default:
-                    printf("[!] Unknown command: '%c'. Choose 1-5 or a.\n", c);
+                    printf("[!] Unknown command: '%c'. Choose 0-9 or a.\n", c);
                     break;
             }
             vTaskDelay(pdMS_TO_TICKS(1500));

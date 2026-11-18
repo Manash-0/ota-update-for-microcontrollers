@@ -3,7 +3,6 @@
 !docs/*.md
 !esp8266/README.md
 !implementation BTP.md
-!esp32_firmware/*.md
 
 # Keys, Certificates, and Secrets (CRITICAL: NEVER COMMIT PRIVATE KEYS OR PASSWORDS)
 keys/
@@ -37,7 +36,6 @@ build/
 *.exe
 .pio/
 .espidf/
-esp32_firmware/attack_matrix/work/
 !firmware_samples/demo_*.bin
 
 # Node.js

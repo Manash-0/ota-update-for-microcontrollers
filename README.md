@@ -42,7 +42,27 @@ The framework operates on a **Defense-in-Depth** multi-tier security model:
 
 ---
 
-## 2. Two-Track Design
+## 2. Master Implementation Lifecycle (4 Phases, 14 Steps)
+
+The project systematically executes across 4 rigorous engineering phases:
+
+* **Phase 1: Environment & Base Firmware**
+  * `Step 1–2`: Identify target ESP32-C6 hardware & install ESP-IDF / Arduino toolchains
+  * `Step 3–4`: Deploy base ESP32 firmware & port V1/V2 dual-slot structure (`ota_0`, `ota_1`, `otadata`)
+  * `Step 5`: Generate PKI keys & integrate RSA firmware signing
+* **Phase 2: Secure Boot v2 Setup**
+  * `Step 6–7`: Configure Secure Boot v2 development mode; sign & boot authentic V1
+  * `Step 8–9`: Stage modified/unsigned V2 binary → verify hardware ROM rejection
+* **Phase 3: Flash Encryption**
+  * `Step 10–11`: Enable Flash Encryption (dev mode); dump SPI flash & verify Shannon Entropy (>7.95)
+  * `Step 12`: Combine Secure Boot v2 + Flash Encryption (eFuse non-destructive audit)
+* **Phase 4: Validation & Verification**
+  * `Step 13`: Execute 10-scenario attack matrix in pure C (tampering, rollback, health check, RSA-PSS, HTTPS MitM)
+  * `Step 14`: Benchmark cryptographic latency & memory overhead; document results
+
+---
+
+## 3. Two-Track Design
 
 * **Track A (Arduino IDE 2.x):** Rapid prototyping, live demonstration, and application-layer security:
   * HTTPS OTA via `WiFiClientSecure` with Root CA certificate pinning
@@ -56,23 +76,24 @@ The framework operates on a **Defense-in-Depth** multi-tier security model:
 
 ---
 
-## 3. Attack Matrix Evaluation Results
+## 4. Attack Matrix Evaluation Results (10/10 Defended in Pure C & Server Suite)
 
 | # | Attack Scenario | Defense Layer | Expected Result | Evaluation Status |
 | :-: | :--- | :--- | :--- | :---: |
 | 1 | Valid Signed V2 Update | Complete Cryptographic Chain | Installs, passes health check, marked valid | **PASS** |
 | 2 | Tampered V2 Binary (1 byte flipped) | SHA-256 & Secure Boot | Hash mismatch; flash write aborted | **CORRECTLY REJECTED** |
 | 3 | Unsigned V2 Binary | SUIT / RSA-2048 Signature Check | Signature validation fails; update rejected | **CORRECTLY REJECTED** |
-| 4 | Rollback Attempt (Older Firmware) | Monotonic Anti-Rollback Counter | Sequence number regression blocked | **CORRECTLY REJECTED** |
+| 4 | Rollback Attempt (Older Firmware) | Monotonic Anti-Rollback Counter (eFuse) | Sequence number regression blocked | **CORRECTLY REJECTED** |
 | 5 | Signed but Buggy V2 (Crash-loop) | Two-Phase Commit Health Check | Fails runtime test; auto-rollback to V1 | **CORRECTLY REJECTED** |
-| 6 | SPI Flash Read / Bus Sniffing | Hardware Flash Encryption (AES) | High-entropy ciphertext extracted | **CORRECTLY REJECTED** |
-| 7 | Corrupted Hash in Manifest | Streaming SHA-256 Engine | Digest mismatch at download completion | **CORRECTLY REJECTED** |
-| 8 | Bad Header Magic (`0xDEADBEEF`) | SUIT Envelope Parser | Header rejected prior to binary download | **CORRECTLY REJECTED** |
-| 9 | Unauthorized Device ID | Server-side Identity Allowlist | HTTP 403 Forbidden | **CORRECTLY REJECTED** |
+| 6 | Health Check: Heap Starvation | Dynamic SRAM Safety Threshold (20 KB) | Refuses commit; triggers rollback | **CORRECTLY REJECTED** |
+| 7 | Health Check: Task Deadlock / Freeze | Hardware Task Watchdog Timer (TWDT) | Watchdog reset triggers bootloader rollback | **CORRECTLY REJECTED** |
+| 8 | RSA-PSS Corrupted Salt / Padding | mbedTLS RSASSA-PSS (RFC 8017 / RFC 9124) | MGF1 / salt de-masking fails | **CORRECTLY REJECTED** |
+| 9 | HTTPS / TLS MitM (Rogue CA Cert) | X.509 Pinned Root CA Validation | TLS Fatal Alert 48; handshake aborted | **CORRECTLY REJECTED** |
+| 10 | Bad Header Magic (`0xDEADBEEF`) | SUIT Envelope Parser Bounds Check | Header rejected prior to binary download | **CORRECTLY REJECTED** |
 
 ---
 
-## 4. Novelty Innovations (Project Highlights)
+## 5. Novelty Innovations (Project Highlights)
 
 1. **Hardware eFuse vs Software Anti-Rollback:**
    * Demonstrates that software sequence numbers in flash/NVS can be bypassed by physical attackers wiping flash, whereas silicon eFuses are one-way physical links that permanently block downgrade attacks.
@@ -85,7 +106,7 @@ The framework operates on a **Defense-in-Depth** multi-tier security model:
 
 ---
 
-## 5. Performance Benchmarks Summary
+## 6. Performance Benchmarks Summary
 
 * **TLS 1.2/1.3 Handshake:** **~310 ms** (ESP8266: ~1850 ms, **~5.9x faster**)
 * **RSA-2048 Signature Verification:** **~22 ms** (ESP8266: ~145 ms, **~6.5x faster**)
@@ -96,7 +117,7 @@ The framework operates on a **Defense-in-Depth** multi-tier security model:
 
 ---
 
-## 6. Limitations & Future Work
+## 7. Limitations & Future Work
 
 * **ESP-TEE (Trusted Execution Environment):** Utilize the ESP32-C6 APM (Access Permission Management) hardware to run the OTA update client inside an isolated secure enclave.
 * **Delta / Differential OTA:** Integrate `detools` / RFC 9124 delta compression to stream only binary diffs, reducing cellular/constrained IoT bandwidth by up to 80%.
@@ -104,7 +125,7 @@ The framework operates on a **Defense-in-Depth** multi-tier security model:
 
 ---
 
-## 7. Slide-Ready Defense Bullets for Evaluators
+## 8. Slide-Ready Defense Bullets for Evaluators
 
 * **Why Secure Boot?** OTA signatures only protect data over the network; Secure Boot anchors trust in hardware ROM every time the chip powers on.
 * **Why A/B Partitions?** Eliminates bricking: updates stream into inactive slots, and pointers switch only after cryptographic validation succeeds.
